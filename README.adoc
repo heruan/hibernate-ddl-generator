@@ -1,0 +1,26 @@
+My first attempt of a Maven plugin to generate JPA DDL with Hibernate (including Envers).
+
+The plugin at this testing stage is self-contained, i.e. generates DDL in `target/ddl` for a
+single entity included in the plugin itself (`AuditedEntity`).
+
+Currently does not work with Java 9, any help from Hibernate team or Maven experts appreciated!
+
+To test, install the plugin and run:
+
+[source]
+----
+$ mvn install
+$ mvn to.lova:hibernate-ddl-generator:generate-ddl
+----
+
+and it will fail with:
+
+[source]
+----
+Unable to perform unmarshalling at line number 3 and column 40. Message: unexpected element
+(uri:"http://www.hibernate.org/xsd/orm/hbm", local:"hibernate-mapping"). Expected elements
+are <{}hibernate-mapping> : origin(envers): UnmarshalException
+----
+
+But if you just change the Java version in the POM to 1.8 and re-install, running again
+will succeed with the DDL generated in `target/ddl/h2/create.sql`.
